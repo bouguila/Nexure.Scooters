@@ -27,6 +27,11 @@ namespace ScootersCountService.Controllers
             var result = _countService.CountMinFE(scooters, c, p);
             return result;
         }
+        [HttpGet]
+        public ActionResult Get()
+        {
+            return new BadRequestResult();
+        }
     }
 
     public class RequestBody
