@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ScootersCountService": {
+    "NexureCountService": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "/",

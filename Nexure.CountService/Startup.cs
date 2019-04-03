@@ -10,9 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ScootersCountService.Core;
+using Nexure.CountService.Validators;
+using NexureCountService.Core;
 
-namespace ScootersCountService
+namespace NexureCountService
 {
     public class Startup
     {
@@ -27,6 +28,7 @@ namespace ScootersCountService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ICountService, CountService>()
+                    .AddTransient<IParamsValidator, ParamsValidator>()
                     .AddMvc()
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

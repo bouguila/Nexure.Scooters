@@ -1,21 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ScootersCountService.Core;
+using Nexure.CountService.Validators;
+using NexureCountService.Core;
 
-namespace ScootersCountService.Controllers
+namespace NexureCountService.Controllers
 {
     [Route("/countService")]
     [ApiController]
     public class CountServiceController : ControllerBase
     {
         private ICountService _countService;
-        public CountServiceController(ICountService countService)
+        private IParamsValidator _paramvValidator;
+
+        public CountServiceController(ICountService countService, IParamsValidator paramvValidator)
         {
             this._countService = countService;
+            this._paramvValidator = paramvValidator;
         }
+
         // POST /countService
         [HttpPost]
         public ActionResult<int> Post([FromBody] RequestBody body)
@@ -24,9 +26,19 @@ namespace ScootersCountService.Controllers
             int c = body.C;
             int p = body.P;
 
-            var result = _countService.CountMinFE(scooters, c, p);
-            return result;
+            try
+            {
+                _paramvValidator.Validate(scooters, c, p);
+            }
+            catch (Exception e)
+            {
+                Response.StatusCode = 400; // Bad Request
+                return Content(e.Message);
+            }
+
+            return _countService.CountMinFE(scooters, c, p);
         }
+
         [HttpGet]
         public ActionResult Get()
         {
